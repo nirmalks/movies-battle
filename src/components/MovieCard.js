@@ -19,7 +19,7 @@ const styles = theme => ({
     height: 450,
   },
   container: {
-    margin:5
+    margin: 1,
   }
 });
 
@@ -28,6 +28,7 @@ class MovieCard extends Component {
   constructor(props) {
     super(props);
     this.state = { topMovies : []};
+ 
   }
 
   componentDidMount() {
@@ -43,43 +44,42 @@ class MovieCard extends Component {
     const { classes } = this.props;
 
     return (
- 
-       <div className={classes.container}>
-          <Grid container spacing={24}>
-        { this.state.topMovies.map((movie) => 
-              
-            <Grid item md={3} xs={3} key={movie.id}>
-            <Card className={classes.card} >
-              <CardMedia
-                className={classes.media}
-                image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography type="headline" component="h2">
-                  {movie.title}
-          </Typography>
-                <Typography component="p">
-                  {movie.overview}
-          </Typography>
-              </CardContent>
-              <CardActions>
+
+      <div>
+        <Grid container className={classes.container} spacing={24}>
+          { this.state.topMovies.map((movie) =>
+
+            <Grid item md={3} xs={6} key={movie.id}>
+              <Card className={classes.card} >
+                <CardMedia
+                  className={classes.media}
+                  image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                  title={movie.title}
+                />
+                <CardContent>
+                  <Typography type="headline" component="h2">
+                    {movie.title}
+                  </Typography>
+                  <Typography component="p">
+                    {movie.overview}
+                  </Typography>
+                </CardContent>
+                <CardActions>
                   <span>{movie.vote_average}</span>
-                <Button dense color="primary">
-                  Share
+                  <Button dense color="primary">
+                    Share
           </Button>
-                <Button dense color="primary">
-                  Learn More
+                  <Button dense color="primary">
+                    Learn More
           </Button>
-        
-              </CardActions>
-            </Card>
-          </Grid>
-        
-        )
-        }
-          </Grid>
-</div>
+
+                </CardActions>
+              </Card>
+            </Grid>
+          )
+          }
+        </Grid>
+      </div>
     );
   }
 

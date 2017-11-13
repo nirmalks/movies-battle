@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Header from './components/Header';
-import MovieCard from './components/MovieCard';
+import HomePage from './components/HomePage';
+import { BrowserRouter , Route } from 'react-router-dom';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-       <Header/>
-       <MovieCard />
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Route exact path="/" component={HomePage} />
+        </div>
+      </BrowserRouter>
     );
   }
 }
