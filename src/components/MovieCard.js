@@ -16,8 +16,11 @@ const styles = theme => ({
     maxWidth: 345,
   },
   media: {
-    height: 200,
+    height: 450,
   },
+  container: {
+    margin:5
+  }
 });
 
 class MovieCard extends Component {
@@ -25,18 +28,13 @@ class MovieCard extends Component {
   constructor(props) {
     super(props);
     this.state = { topMovies : []};
- 
   }
 
   componentDidMount() {
     fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`)
     .then((response) => {
-
       response.json().then((data) => {
-        console.log(data);
         this.setState({ topMovies : data.results}); 
-        console.log(this.state.topMovies);
-
       });      
     });
   }
@@ -46,7 +44,7 @@ class MovieCard extends Component {
 
     return (
  
-       <div>
+       <div className={classes.container}>
           <Grid container spacing={24}>
         { this.state.topMovies.map((movie) => 
               
