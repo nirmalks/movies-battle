@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import HomePage from './components/HomePage';
+import BattlePage from './components/BattlePage';
 import { BrowserRouter , Route } from 'react-router-dom';
 
 class App extends Component {
@@ -9,7 +10,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={ HomePage } />
+          <Route exact path="/battle" component={ BattlePage } />
         </div>
       </BrowserRouter>
     );
