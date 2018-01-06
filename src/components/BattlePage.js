@@ -5,6 +5,8 @@ import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { apiKey } from '../api_key';
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
 
 const styles = theme => ({
   container: {
@@ -21,8 +23,38 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
   },
+  card: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 450,
+  },
+  marginRight: {
+    marginRight:10
+  }
 });
 
+function MovieCard(props) {
+  return (
+    <div className={props.classes.marginRight}>
+    <Card className={props.classes.card} >
+    <CardMedia
+      className={props.classes.media}
+      image={`https://image.tmdb.org/t/p/w500/${props.movie.poster_path}`}
+      title={props.movie.title}
+    />
+    <CardContent>
+      <Typography type="headline" component="h2">
+        {props.movie.title}
+      </Typography>
+      <Typography component="p">
+      <span>{props.movie.vote_average}</span>
+      </Typography>
+    </CardContent>
+  </Card>
+  </div>
+  )
+}
 
 class BattlePage extends Component {
     state = {
@@ -60,8 +92,6 @@ class BattlePage extends Component {
         );
 
         Promise.all([movie1Data , movie2Data]).then( () => {
-            console.log(this.state.movie1Result);
-            console.log(this.state.movie2Result);
             if(this.state.movie1Result.vote_average > this.state.movie2Result.vote_average) {
               this.setState({winner : "movie1"});
             } else if (this.state.movie1Result.vote_average === this.state.movie2Result.vote_average) {
@@ -100,7 +130,9 @@ class BattlePage extends Component {
                 </form>
                 <Button onClick={this.submitClickHandler} raised color="primary" className={classes.button}>
                 Submit
-                </Button>            
+                </Button>   
+                { this.state.winner ?  <div className={classes.container} ><MovieCard classes = {classes} movie={this.state.movie1Result}/>
+                <MovieCard classes = {classes} movie={this.state.movie2Result}/>  </div>: "" }         
             </div>
         );
     }
