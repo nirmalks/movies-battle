@@ -5,8 +5,9 @@ import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { apiKey } from '../api_key';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
+import Card, { CardContent, CardMedia } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+import Icon from 'material-ui/Icon';
 
 const styles = theme => ({
   container: {
@@ -25,12 +26,13 @@ const styles = theme => ({
   },
   card: {
     maxWidth: 345,
+    height:500
   },
   media: {
-    height: 450,
+    height: 425,
   },
   marginRight: {
-    marginRight:10
+    marginRight:30
   }
 });
 
@@ -38,19 +40,22 @@ function MovieCard(props) {
   return (
     <div className={props.classes.marginRight}>
     <Card className={props.classes.card} >
+    <CardContent>
+    { props.isWinner ? <Icon color="primary" style={{ fontSize: 30 }}>
+    star
+    </Icon> : ""}
+    <Typography type="headline" component="h2">
+      {props.movie.title}
+    </Typography>
+    <Typography component="p">
+    <span>{props.movie.vote_average}</span>
+    </Typography>
+  </CardContent>
     <CardMedia
       className={props.classes.media}
       image={`https://image.tmdb.org/t/p/w500/${props.movie.poster_path}`}
       title={props.movie.title}
     />
-    <CardContent>
-      <Typography type="headline" component="h2">
-        {props.movie.title}
-      </Typography>
-      <Typography component="p">
-      <span>{props.movie.vote_average}</span>
-      </Typography>
-    </CardContent>
   </Card>
   </div>
   )
@@ -93,18 +98,18 @@ class BattlePage extends Component {
 
         Promise.all([movie1Data , movie2Data]).then( () => {
             if(this.state.movie1Result.vote_average > this.state.movie2Result.vote_average) {
-              this.setState({winner : "movie1"});
+              this.setState({winner : "Movie1"});
             } else if (this.state.movie1Result.vote_average === this.state.movie2Result.vote_average) {
-              this.setState({winner : "tie"});
+              this.setState({winner : "Mie"});
             } else {
-              this.setState({winner : "movie2"});
+              this.setState({winner : "Movie2"});
             }
         }
         );
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes } = this.props;    
         return (
             <div >
                 <Header />
@@ -131,8 +136,19 @@ class BattlePage extends Component {
                 <Button onClick={this.submitClickHandler} raised color="primary" className={classes.button}>
                 Submit
                 </Button>   
-                { this.state.winner ?  <div className={classes.container} ><MovieCard classes = {classes} movie={this.state.movie1Result}/>
-                <MovieCard classes = {classes} movie={this.state.movie2Result}/>  </div>: "" }         
+
+                { this.state.winner ?          
+                  <div>
+                  <div>
+                  <h3 > 
+                  {this.state.winner === "Movie1" || this.state.winner === "Movie2" ? `The winner is ${this.state.winner} !` : 'Its a Tie !'}
+                  </h3>
+                  </div>
+                  <div className={classes.container}>
+                  <MovieCard classes = {classes} isWinner = {this.state.winner === "Movie1" ?  true : false } result={this.state.winner} movie={this.state.movie1Result}/>
+                  <MovieCard classes = {classes} isWinner = {this.state.winner === "Movie2" ?  true : false } movie={this.state.movie2Result} result={this.state.winner}/>  
+                  </div>
+                  </div>: "" }         
             </div>
         );
     }
