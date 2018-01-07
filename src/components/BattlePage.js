@@ -158,4 +158,10 @@ BattlePage.propTypes = {
     classes: PropTypes.object.isRequired,
   };
 
+MovieCard.propTypes = {
+  classes: PropTypes.object.isRequired,
+  movie:  PropTypes.any.isRequired,
+  result: PropTypes.string.isRequired,
+  isWinner: PropTypes.bool.isRequired
+}
 export default withStyles(styles)(BattlePage);
